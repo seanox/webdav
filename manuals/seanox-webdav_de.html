@@ -1,0 +1,825 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Seanox WebDAV @@@ant-project-version</title>
+    <style type="text/css">
+      body                                         {margin:28px 0px 24px 0px; padding:0px; min-width:768px; background-color:#6482D6; cursor:default; overflow:auto; font-family:sans-serif;}
+      *                                            {font-size:12px; line-height:15px; color:#EAF0FF; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; -ms-box-sizing:border-box;}
+
+      a, a:active                                  {color:#EAF0FF; text-decoration:underline;}
+      a:hover                                      {color:#C0D0FF;}
+      a[href][target]:after                        {content:attr(href)}             
+
+      h1                                           {font-size:24px; line-height:29px; padding:12px 0px; margin:0px;}
+      h2                                           {font-size:22px; line-height:26px; padding:11px 0px; margin:0px;}
+      h3                                           {font-size:19px; line-height:22px; padding:10px 0px; margin:0px;}
+      h4                                           {font-size:17px; line-height:19px; padding:09px 0px; margin:0px;}
+      h5                                           {font-size:14px; line-height:16px; padding:07px 0px; margin:0px;}
+      h6                                           {font-size:12px; line-height:15px; padding:06px 0px; margin:0px;}
+
+      ul                                           {margin:0px;}
+      pre, code                                    {font-family:lucida console,courier; color:#FFFFD0;}
+      pre                                          {margin:0px; padding:0px; line-height:1em;}
+
+      body > div                                   {width:80%; margin-left:10%; margin-right:10%;}
+      body > div > div > div                       {page-break-before:avoid; padding:0em 0em 1.25em 0em;}
+      body > div > div > div:first-child           {border-bottom:1px solid; page-break-before:always; padding:3em 0em 0.25em 0em; margin-bottom:1em;}
+      body > div > div > div:first-child h3        {display:table-cell; padding:0px 0px; width:100%;}
+      body > div > div > div:first-child h3 + h3   {font-family:lucida console,courier; font-weight:normal; color:#C0D0FF;}
+      body > div > div > div > h4:first-child      {padding-top:0px;}
+
+      body > div                                   {display:block;}
+      body > div + div                             {display:none;}
+      body > div + div + div + div                 {display:block;}
+
+      body > div + div + div + div > div:first-child > div + div > div > div + div a       {font-family:lucida console,courier; color:#C0D0FF; text-decoration:none; line-height:12px;}
+      body > div + div + div + div > div:first-child > div + div > div > div + div a:hover {color:#EAF0FF;}
+      body > div + div + div + div > div:first-child > div + div > div > div               {display:inline-block; vertical-align:top;}
+      body > div + div + div + div > div:first-child > div + div > div > div + div         {padding-left:1em;}
+
+      div.box                                      {border:1px solid; padding:10px; color:#C0D0FF; }
+      div.box + div.box                            {margin-top:1em;}
+      div.box.blue                                 {background-color:#738EDA; border-color:#9AADE4;}
+
+      div.two                                      {display:table;}
+      div.two > div                                {display:table-row;}
+      div.two > div + div > div:first-child        {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.two > div > div                          {display:table-cell; color:#C0D0FF;}
+      div.two > div:first-child > div              {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.two > div:first-child > div + div        {padding:0em 0em 0em 1em;}
+      div.two > div + div > div                    {padding:0.5em 0em 0em 1em;}
+      div.two > div + div + div > div              {padding:0.5em 0em 0em 1em;}
+
+      div.three                                    {display:table;}
+      div.three > div                              {display:table-row;}
+      div.three > div + div > div:first-child      {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.three > div + div > div + div            {font-family:lucida console,courier; color:#FFFFD0;}
+      div.three > div + div > div + div + div      {font-family:sans-serif; color:#C0D0FF;}
+      div.three > div > div                        {display:table-cell; color:#C0D0FF;}
+      div.three > div:first-child > div            {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.three > div:first-child > div + div      {padding:0em 0em 0em 1em;}
+      div.three > div + div > div                  {padding:0.5em 0em 0em 1em;}
+      div.three > div + div + div > div            {padding:0.5em 0em 0em 1em;}
+
+      div.four                                     {display:table;}
+      div.four > div                               {display:table-row;}
+      div.four > div + div > div:first-child       {padding-left:0em; font-family:lucida console,courier; color:#FFFFD0;}
+      div.four > div + div > div + div             {font-family:sans-serif; color:#C0D0FF;}
+      div.four > div + div > div + div + div + div {font-family:lucida console,courier; color:#FFFFD0;}
+      div.four > div > div                         {display:table-cell; color:#C0D0FF;}
+      div.four > div:first-child > div             {padding:1em 0em 0.5em 0em; border-bottom:1px solid; white-space:nowrap;}
+      div.four > div:first-child > div + div       {padding:0em 0em 0em 1em;}
+      div.four > div + div > div                   {padding:0.5em 0em 0em 1em;}
+      div.four > div + div + div > div             {padding:0.5em 0em 0em 1em;}
+
+      body > div + div + div + div + div > div + div                      {text-align:right;}
+      body > div + div + div + div + div > div                            {display:table-cell;}
+      body > div + div + div + div + div                                  {display:table; border-top:1px solid #EAF0FF; padding:6px 0px 0px 0px;}
+      body > div + div + div + div + div > div + div > span               {padding-right:3px;}
+      body > div + div + div + div + div > div + div > span + span        {font-size:10px; border:1px solid #EAF0FF; padding:0px 3px 0px 2px; position:relative; top:-1px; margin-left:2px;}
+      body > div + div + div + div + div > div + div > span + span + span {color:#6482D6; background-color:#EAF0FF; padding:0px 3px 0px 1px; margin-left:0px;}
+
+      @media screen and (min-width:0\0) {
+        body                                        {padding-top:1px;}
+        body > div > div:first-child                {padding-top:1px;}
+        body > div + div + div + div + div > div + div > span + span        {top:0px; padding-bottom:1px;}
+        body > div + div + div + div + div > div + div > span + span + span {top:0px; padding-bottom:1px;}
+      }
+    </style>
+    <style type="text/css" media="print">
+      body                                         {margin:0px 0px 24px 0px; background:none;}
+      *                                            {color:#000000;}
+      a, a:active                                  {color:#707070;}
+      pre, code                                    {color:#707070;}
+      body > div > div > div:first-child h3 + h3   {color:#707070;}
+
+      body > div + div + div + div > div:first-child > div + div > div > div + div a {color:#707070;}
+
+      div.box                                      {color:#707070; }
+      div.box.blue                                 {background-color:#F0F0F0; border-color:#707070;}
+
+      div.two > div + div > div:first-child        {color:#707070;}
+      div.two > div > div                          {color:#000000;}
+      div.three > div + div > div:first-child      {color:#707070;}
+      div.three > div + div > div + div + div      {color:#000000;}
+      div.three > div > div                        {color:#000000;}
+
+      div.four > div + div > div:first-child       {color:#707070;}
+      div.four > div + div > div + div             {color:#000000;}
+      div.four > div + div > div + div + div + div {color:#707070;}
+      div.four > div > div                         {color:#000000;}
+
+      body > div + div + div + div + div                                  {border-color:#707070; color:#707070;}
+      body > div + div + div + div + div *                                {color:#707070;}
+      body > div + div + div + div + div > div + div > span + span        {border-color:#707070;}
+      body > div + div + div + div + div > div + div > span + span + span {color:#FFFFFF; background-color:#707070;}
+
+      body > div                                   {display:none;}
+      body > div + div                             {display:block; min-height:800px;}
+      body > div + div > div                       {padding-top:700px;}
+      body > div + div + div                       {display:block; min-height:0px;}
+      body > div + div + div + div > div           {padding-top:0px;}
+
+      body > div + div h1                          {padding:0px; font-size:32px; line-height:32px; color:#00000;}
+      body > div + div h1 + h1 + h1                {padding-top:0px; color:#A0A0A0; font-size:32px;}
+
+      img                                          {filter:grayscale(100%); filter:gray();
+                                                    -webkit-filter:grayscale(100%); -moz-filter: grayscale(100%); -ms-filter: grayscale(100%); -o-filter: grayscale(100%); -webkit-filter:grayscale(1);}
+
+      @media print and (min-width:0\0) {
+        body > div + div + div + div + div > div + div > span + span        {top:0px; padding-top:1px; padding-bottom:1px;}
+        body > div + div + div + div + div > div + div > span + span + span {top:0px; padding-top:1px; padding-bottom:1px;}
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h3>
+        Seanox WebDAV @@@ant-project-version<br>
+        Copyright (C) @@@ant-project-year Seanox Software Solutions<br>
+        Alle Rechte vorbehalten.
+      </h3>
+    </div>
+    <div>
+      <div>
+        <h1>Seanox Software Solutions</h1>
+        <h1>WebDAV - Advanced Server Developing</h1>
+        <h1>Dokumentation</h1>
+      </div>
+    </div>
+    <div>
+      <div>
+        Dokumentation zu Seanox WebDAV<br>
+        Stand @@@ant-project-day.@@@ant-project-month.@@@ant-project-year<br>
+        <br>
+        <h4>Copyright &copy; @@@ant-project-year Seanox Software Solutions</h4>
+        Alle Rechte vorbehalten.<br>
+        <br>
+        <h4>Wichtiger Hinweis</h4>
+        Die im Buch genannten Software- und Hardwarebezeichnungen sowie die Markennamen
+        der jeweiligen Firmen unterliegen im Allgemeinen warenzeichen-, marken-
+        oder patent-rechtlichem Schutz.
+      </div>
+    </div>
+    <div>
+      <div>
+        <div>
+          <a id="Index"></a>
+          <h3>Inhalt</h3>
+        </div>
+        <div>
+          <div>
+            <div>
+              <a href="#General">Allgemeines</a><br>
+              <a href="#License">Lizenzbedingungen</a><br>
+              <a href="#Features">Merkmale</a><br>
+              <a href="#Requirements">Systemanforderung</a><br>
+              <a href="#Installation">Installation</a><br>
+              <a href="#Problems">Probleme</a><br>
+              <a href="#Methods">Methoden</a><br>
+              <a href="#Developing">Entwicklung</a><br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- GENERAL ========================================================= -->
+      <div>
+        <div>
+          <a id="General"></a>
+          <h3>Allgemeines</h3>
+        </div>
+        <div>
+          WebDAV (Web-based Distributed Authoring and Versioning) ist ein offener
+          Standard zur Bereitstellung von Dateisystemen per HTTP. Als Modul lassen
+          sich mit dieser Erweiterung bei Seanox Devwex virtuelle Verzeichnisse
+          f&uuml;r verschiedene Zielsystem einrichten. Bereits enthalten sind Stores
+          zur als Abstraktion f&uuml;r lokale Dateisysteme und Zip-Archive. Alle
+          unterst&uuml;tzen einen Vollzugriff mit Lesen, Schreiben, Erstellen, &Auml;ndern,
+          Verschieben und L&ouml;schen und bieten individuelle Konfiguration und
+          Sharing. Mit der enthaltenen API lassen sich zudem mit Java weitere Stores
+          f&uuml;r neue Zielsystem, z.B. Datenbanken, FTP und SCP, implementieren
+          und einbinden..
+        </div>
+      </div>
+      <!-- LICENSE ========================================================= -->
+      <div>
+        <div>
+          <a id="License"></a>
+          <h3>Lizenzbedingungen</h3>
+        </div>
+        <div>
+          Seanox Software Solutions ist ein Open-Source-Projekt, im Folgenden
+          Seanox Software Solutions oder kurz Seanox genannt.<br>
+          <br>
+          Diese Software unterliegt der Version 2 der GNU General Public License.<br>
+          <br>
+          Copyright (C) @@@ant-project-year Seanox Software Solutions<br>
+          <br>
+          This program is free software; you can redistribute it and/or modify it
+          under the terms of version 2 of the GNU General Public License as published
+          by the Free Software Foundation.<br>
+          <br>
+          This program is distributed in the hope that it will be useful, but WITHOUT
+          ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+          FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+          for more details.<br>
+          <br>
+          You should have received a copy of the GNU General Public License along
+          with this program; if not, write to the Free Software Foundation, Inc.,
+          51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+        </div>
+      </div>
+      <!-- FEATURES ======================================================== -->
+      <div>
+        <div>
+          <a id="Features"></a>
+          <h3>Merkmale</h3>
+        </div>
+        <div>
+          <h4>Kompakt</h4>
+          Das aus nur einer Datei bestehende Modul l&auml;sst sich schnell und problemlos
+          einrichten.
+          <h4>HTTP</h4>
+          Das Modul unterst&uuml;tzt WebDAV Level 2 und damit die daf&uuml;r erforderlichen
+          Methoden <code>OPTIONS</code>, <code>PROPFIND</code>, <code>HEAD</code>,
+          <code>GET</code>, <code>PROPPATCH</code>, <code>MKCOL</code>, <code>PUT</code>,
+          <code>COPY</code>, <code>MOVE</code> und <code>DELETE</code>.
+          <h4>Virtualisierung</h4>
+          Im Lieferumfang enthalten sind bereits zwei Stores, welche die Virtualisierung
+          vom lokalen Dateisystem und von Zip-Archiven unterst&uuml;tzen. In allen
+          Stores wird ein Vollzugriff mit Lesen, Schreiben, Erstellen, &Auml;ndern,
+          Verschieben und L&ouml;schen unterst&uuml;tzt.
+          <h4>Sicherheit</h4>
+          Das Modul l&auml;sst sich f&uuml;r eine gesicherte Daten&uuml;bertragung
+          in Verbindung mit SSL/TLS und Basic- / Digest- Access Authentication verwenden.
+          F&uumlr Stores kann bewusst das Schreibrecht gesetzt bzw. entzogen werden.
+          <h4>Erweiterbar</h4>
+          Weitere Stores f&uuml;r andere Zielsysteme, z.B. Datenbanken, FTP oder
+          SCP, lassen sich mit Java &uuml;ber die im WebDAV-Modul enthaltenen API
+          erstellen.
+          <h4>Open Source</h4>
+          Die Quellen und Dokumentation stehen unter der Version 2 der GPL zur Verf&uuml;gung.
+        </div>
+      </div>
+      <!-- REQUIREMENTS ==================================================== -->
+      <div>
+        <div>
+          <a id="Requirements"></a>
+          <h3>Systemanforderung</h3>
+        </div>
+        <div>
+          <h4>Software</h4>
+          Java Runtime 7.x<br>
+          Seanox Commons 1.2013.07xx<br>
+          Seanox Devwex 1.2013.07xx
+        </div>
+      </div>
+      <!-- INSTALLATION ==================================================== -->
+      <div>
+        <div>
+          <a id="Installation"></a>
+          <h3>Installation</h3>
+        </div>
+        <div>
+          Mit dem Modulkonzept von Devwex kann nach dem Entpacken die enthaltene
+          Verzeichnisstruktur komplett in das Programmverzeichnis <code>./devwex</code>
+          des Servers verschoben werden.<br>
+          <br>
+          F&uuml;r die manuelle Installation, wird die nach dem Entpacken enthaltene
+          Dateien <code>seanox-webdav.jar</code> an einer beliebigen Stelle im Dateisystem
+          abgelegt. Vorzugsweise sollte f&uuml;r Module das Bibliotheksverzeichnis
+          <code>./devwex/libraries</code> verwendet werden. Die Anbindung an den
+          Server erfolgt als Modul, welches sich im Klassenpfad (Classpath) des
+          Servers befinden muss.<br>
+          <br>
+          Devwex verf&uuml;gt &uuml;ber eine automatische Erweiterung des Klassenpfads,
+          f&uuml;r die mit dem Serverstart angegebenen Bibliotheksverzeichnisse.
+          Somit werden dort abgelegte Module automatisch &uuml;bernommen.<br>
+          <br>
+          Die Konfiguration des Moduls erfolgt &uuml;ber die Konfigurationsdatei
+          <code>devwex.ini</code>.<br>
+          <br>
+          Die Ausf&uuml;hrung und Anbindung von WebDAV kann mit einer Vielzahl von
+          Parametern konfiguriert werden. Diese lassen sich direkt mit der Moduldeklaration
+          angegeben werden oder &uuml;ber die Verwendung des Parameters <code>EXTENDS</code>
+          in einen separaten Sektion auslagern.
+          <h4>Konfiguration des Moduls allgemein</h4>
+          <div class="box blue">
+            <pre>[SERVER:X:BAS]                           </pre>
+            <pre>  METHODS = OPTIONS HEAD GET POST GATEWAY</pre>
+          </div>
+          <h4>Konfiguration vom FileStore</h4>
+          <div class="box blue">
+            <pre>[SERVER:X:REF]                                                  </pre>
+            <pre>  EXAMPLE-F = /example-file/ &gt; com.seanox.module.http.Context</pre>
+            <pre>            + [context:webdav-1]                                </pre>
+            <pre>            + [class:com.seanox.webdav.Connector]               </pre>
+            <pre>            + [storage:com.seanox.webdav.storage.FileStore]     </pre>
+            <pre>            + [root:/document] [readonly:off] [M]               </pre>
+          </div>
+          <br>
+          &Uuml;bersicht der verf&uuml;gbaren Parameter
+          <br>
+          <div class="two">
+            <div>
+              <div>
+                Parameter
+              </div>
+              <div>
+                Beschreibung
+              </div>
+            </div>
+            <div>
+              <div>
+                extends
+              </div>
+              <div>
+                Optionale Angabe bei Auslagerung der Konfiguration, oder Teilen
+                dieser, in eine andere Sektion der Konfiguration
+              </div>
+            </div>            
+            <div>
+              <div>
+                context
+              </div>
+              <div>
+                Name vom Context im Universum vom Modul-Manager, ist zur Tennung
+                der verwendeten Application-ClassLoader erforderlich
+              </div>
+            </div>
+            <div>
+              <div>
+                class
+              </div>
+              <div>
+                Klasse vom WebDAV-Connector (<code>com.seanox.webdav.Connector</code>),
+                wird vom Modul-Manager zum Laden des Moduls ben&ouml;tigt
+              </div>
+            </div>
+            <div>
+              <div>
+                storage
+              </div>
+              <div>
+                zu verwendende Store-Klasse (<code>com.seanox.webdav.storage.FileStore</code>)
+              </div>
+            </div>
+            <div>
+              <div>
+                root
+              </div>
+              <div>
+                Wurzelverzeichnis im Store, vergleichbar mit <code>docroot</code>
+                aus der Server-Konfiguration
+              </div>
+            </div>
+            <div>
+              <div>
+                readonly
+              </div>
+              <div>
+                option f&uuml;r den ausschliesslich lesenden Zugriff, f&uuml;r den
+                schreibenden Zugriff muss <code>readonly</code> bewusst auf <code>off</code>
+                gesetzt werden, Standard, wenn nicht angegeben ist <code>on</code>
+              </div>
+            </div>
+            <div>
+              <div>
+                blocksize
+              </div>
+              <div>
+                optionale Angabe f&uuml;r den Store, welche die Gr&ouml;sse der
+                Datenbl&ouml;cke beim Datenzugriff angibt, als Standard, wenn nicht
+                angegeben, wird der Wert aus der Server-Konfiguration verwendet
+              </div>
+            </div> 
+          </div>
+          <h4>Konfiguration vom ZipStore</h4>
+          <div class="box blue">
+            <pre>[SERVER:X:REF]                                                 </pre>
+            <pre>  EXAMPLE-Z = /example-zip/ &gt; com.seanox.module.http.Context</pre>
+            <pre>            + [context:webdav-2]                               </pre>
+            <pre>            + [class:com.seanox.webdav.Connector]              </pre>
+            <pre>            + [storage:com.seanox.webdav.storage.ZipStore]     </pre>
+            <pre>            + [archive:../documents/example.zip]               </pre>
+            <pre>            + [root:/document] [readonly:off] [M]              </pre>
+          </div>
+          <br>
+          &Uuml;bersicht der verf&uuml;gbaren Parameter
+          <br>
+          <div class="two">
+            <div>
+              <div>
+                Parameter
+              </div>
+              <div>
+                Beschreibung
+              </div>
+            </div>
+            <div>
+              <div>
+                extends
+              </div>
+              <div>
+                Optionale Angabe bei Auslagerung der Konfiguration, oder Teilen
+                dieser, in eine andere Sektion der Konfiguration
+              </div>
+            </div>            
+            <div>
+              <div>
+                context
+              </div>
+              <div>
+                Name vom Context im Universum vom Modul-Manager, ist zur Tennung
+                der verwendeten Application-ClassLoader erforderlich
+              </div>
+            </div>
+            <div>
+              <div>
+                class
+              </div>
+              <div>
+                Klasse vom WebDAV-Connector (<code>com.seanox.webdav.Connector</code>),
+                wird vom Modul-Manager zum Laden des Moduls ben&ouml;tigt
+              </div>
+            </div>
+            <div>
+              <div>
+                storage
+              </div>
+              <div>
+                zu verwendende Store-Klasse (<code>com.seanox.webdav.storage.FileStore</code>)
+              </div>
+            </div>
+            <div>
+              <div>
+                archive
+              </div>
+              <div>
+                einzubindendes Zip-Archiv
+              </div>
+            </div>            
+            <div>
+              <div>
+                root
+              </div>
+              <div>
+                Wurzelverzeichnis im Store, vergleichbar mit <code>docroot</code>
+                aus der Server-Konfiguration
+              </div>
+            </div>
+            <div>
+              <div>
+                readonly
+              </div>
+              <div>
+                option f&uuml;r den ausschliesslich lesenden Zugriff, f&uuml;r den
+                schreibenden Zugriff muss <code>readonly</code> bewusst auf <code>off</code>
+                gesetzt werden, Standard, wenn nicht angegeben ist <code>on</code>
+              </div>
+            </div>
+            <div>
+              <div>
+                blocksize
+              </div>
+              <div>
+                optionale Angabe f&uuml;r den Store, welche die Gr&ouml;sse der
+                Datenbl&ouml;cke beim Datenzugriff angibt, als Standard, wenn nicht
+                angegeben, wird der Wert aus der Server-Konfiguration verwendet
+              </div>
+            </div> 
+          </div>
+          <h4>Konfiguration der Netzlaufwerke</h4>
+          Beispiel richtet unter Windows Laufwerk W: unter <code>http://127.0.0.1/public</code>
+          ein. Die Laufwerkzuordnung geht mit dem Neustart von Windows verloren.<br>
+          <br>   
+          <div class="box blue">
+            <pre>use w: http://127.0.0.1/public /persistent:no</pre>
+          </div>
+          <br>
+          Beispiel richtet unter Windows Laufwerk W: unter <code>http://127.0.0.1/public</code>
+          ein. Die Laufwerkzuordnung bleibt mit dem Neustart von Windows erhalten.<br>
+          <br>   
+          <div class="box blue">
+            <pre>use w: http://127.0.0.1/public /persistent:yes</pre>
+          </div>
+          <br>
+          Beispiel richtet unter Windows Laufwerk W: unter <code>http://127.0.0.1/public</code>
+          mit Autorisierung ein. Die Laufwerkzuordnung geht mit dem Neustart von
+          Windows verloren.<br>
+          <br>          
+          <div class="box blue">
+            <pre>net use w: http://127.0.0.1/public password /USER:user /persistent:no</pre>
+          </div>
+          <br>
+          Beispiel richtet unter Windows Laufwerk W: unter <code>http://127.0.0.1/public</code>
+          mit Autorisierung ein. Die Laufwerkzuordnung bleibt mit dem Neustart von
+          Windows erhalten.<br>
+          <br>          
+          <div class="box blue">
+            <pre>net use w: http://127.0.0.1/public password /USER:user /persistent:yes</pre>
+          </div>
+          <br>
+          L&ouml;scht unter Windows das Laufwerk W: als Zuordnung.<br>
+          <br>          
+          <div class="box blue">
+            <pre>net use w: /delete /yes</pre>
+          </div>          
+        </div>
+      </div>
+      <!-- PROBLEMS ======================================================== -->
+      <div>
+        <div>
+          <a id="Problems"></a>
+          <h3>Probleme</h3>
+        </div>
+        <div>
+          Virtuelle Pfade von Modulen, welche als Referenz <code>(SERVER/VIRTUAL:XXX:REF)</code>
+          eingerichtet werden, werden vom Server absolut betrachtet. Daher sollte
+          hier besonders auf ein endendes Slash bei der Definition virtueller Pfade
+          geachtet werden. Im Beispiel von <code>/d</code> als virtueller Pfad,
+          w&uuml;rde der Server bei der Anfrage nach <code>/documents</code> als
+          Wurzel <code>/d</code> und als Pfad <code>ocuments</code> interpretieren.
+          Da die Wurzel nicht mit Slash endet und der Pfad nicht Slash beginnt w&uuml;rde
+          diese Anfrage als ung&uuml;ltiger Pfad betrachtet und mit Status <code>NOT_FOUND</code>
+          (404) beantwortet werden.<br>
+          <br>
+          Das Modul unterst&uuml;tzt keine Versionierung, die bei WebDAV m&ouml;glich
+          ist.<br>
+          <br>
+          Das bewusste Sperren (<code>LOCK</code>) und Entsperren (<code>UNLOCK</code>)
+          von Ressourcen wird nicht unterst&uuml;tzt.<br>
+          <br>
+          Alle Zugriffe werden als Transaktion betrachtet, die jedoch in der Ausf&uuml;hrungszeit
+          (Timeout) nicht begrenzt werden.<br>
+          <br>
+          Der Zugriff auf Ressourcen mit "+" im Namen muss URL-komform mit "%2B"
+          erfolgen. Einige WebDAV-Clients haben hier Probleme.
+        </div>
+      </div>
+      <!-- METHODS ========================================================= -->
+      <div>
+        <div>
+          <a id="Methods"></a>
+          <h3>Methoden</h3>
+        </div>
+        <div>
+          Das WebDAV-Modul stellt die g&auml;ngigsten Methoden, die nachfolgend
+          erl&auml;utert werden, zur Verf&uuml;gung.
+          <div class="two">
+            <div>
+              <div>
+                Methode
+              </div>
+              <div>
+                Beschreibung
+              </div>
+            </div>
+            <div>
+              <div>
+                OPTIONS
+              </div>
+              <div>
+                R&uuml;ckgabe der f&uuml;r die angegebene Ressource zul&auml;ssigen
+                WebDAV-Methoden.
+              </div>
+            </div>
+            <div>
+              <div>
+                PROPFIND
+              </div>
+              <div>
+                R&uuml;ckgabe der per XML angefordert Eigenschaften einer Ressource
+                bzw. eine detailliertere XML Beschreibung bei Collections (Verzeichnissen).
+              </div>
+            </div>
+            <div>
+              <div>
+                HEAD
+              </div>
+              <div>
+                R&uuml;ckgabe der Metadaten zu einer Ressource als HTTP-Header.
+              </div>
+            </div>
+            <div>
+              <div>
+                GET
+              </div>
+              <div>
+                R&uuml;ckgabe vom Inhalt einer angeforderten Ressource. Handelt
+                es sich dabei um ein Verzeichnis, wird dieses als navigierbares
+                HTML-Dokument mit der Verzeichnisstruktur zur&uuml;ckgegeben.
+              </div>
+            </div>
+            <div>
+              <div>
+                PROPPATCH
+              </div>
+              <div>
+                Setzt die per XML &uuml;bergeben Eigenschaften f&uuml;r einzelne
+                oder einer Menge von Ressourcen.
+              </div>
+            </div>
+            <div>
+              <div>
+                MKCOL
+              </div>
+              <div>
+                Erstellt eine Collection (Verzeichnis). Die &Uuml;bermittlung weiterer
+                Eigenschaften und Strukturinformationen werden nicht unterst&uuml;tzt.
+              </div>
+            </div>                                     
+            <div>
+              <div>
+                PUT
+              </div>
+              <div>
+                Erstellt eine Ressource (Datei) oder &uuml;berschreibt den Inhalt
+                einer bestehenden.
+              </div>
+            </div>            
+            <div>
+              <div>
+                COPY
+              </div>
+              <div>
+                Kopiert eine Ressource (Datei) oder eine komplette Collection (Verzeichnis).
+              </div>
+            </div>             
+            <div>
+              <div>
+                MOVE
+              </div>
+              <div>
+                Verschiebt eine Ressource (Datei) oder eine komplette Collection
+                (Verzeichnis).
+              </div>
+            </div>             
+            <div>
+              <div>
+                DELETE
+              </div>
+              <div>
+                L&ouml;scht eine Ressource (Datei) oder eine komplette Collection
+                (Verzeichnis).
+              </div>
+            </div>                                                  
+          </div>          
+        </div>
+      </div>
+      <!-- DEVELOPING ====================================================== -->
+      <div>
+        <div>
+          <a id="Developing"></a>
+          <h3>Entwicklung</h3>
+        </div>
+        <div>
+          F&uuml;r die Entwicklung von Java Anwendungen wird bei Seanox Eclipse
+          (<a href="http://www.eclipse.org" target="extern"></a>) eingesetzt. Nachfolgend
+          wird die Einrichtung des Projekts f&uuml;r diese IDE beschreiben. Bitte
+          haben Sie Verst&auml;ndnis daf&uuml;r, das Seanox nur eine Entwicklungsumgebung
+          favorisiert.<br>
+          Wenn Sie das Projekt unter einer anderen verwenden, k&ouml;nnen Sie durch
+          das Zusenden einer Anleitung bzw. Konfiguration an <a href="mailto:developing@seanox.de">developing@seanox.de</a>
+          beim Ausbau des Manuals helfen.<br>
+          <br>
+          Dieses Projekt basiert auf der Seanox Devwex Entwicklungsumgebung, welche
+          unter <a href="http://seanox.de/projects/devwex" target="extern"></a>
+          zur Verf&uuml;gung steht. Nach dem Download und dem Entpacken, kann die
+          Entwicklungsumgebung an einer beliebigen Stelle im Dateisystem abgelegt
+          und deren Verzeichnis entsprechend dem Projekt umbenannt werden.<br>
+          <br>
+          Die eigentlichen Ressourcen des Projekts k&ouml;nnen durch das Modulkonzept
+          einfach in das Verzeichnis der Entwicklungsumgebung verschoben werden.
+          F&uuml;r die Einrichtung des Projekts unter Eclipse sind die notwendigen
+          Projektdateien in der Entwickler Version enthalten und k&ouml;nnen &uuml;ber
+          <code>File - Import - Existing Project into Workspace</code> importiert
+          werden.<br>
+          <br>
+          Die manuelle Einrichtung des Projektes erfolgt so:<br>
+          <br>
+          <div class="box blue">
+            <pre>File - New - Project - Java - Java Project</pre>
+            <pre>  &#9474;</pre>
+            <pre>  &#9500;&#9472; Java Project</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Project Name: webdav</pre>
+            <pre>  &#9474;    &#9500;&#9472; Use default: nein</pre>
+            <pre>  &#9474;    &#9492;&#9472; Directory: das lokale Projektverzeichnis</pre>
+            <pre>  &#9474;</pre>
+            <pre>  &#9500;&#9472; Java Settings</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Source</pre>
+            <pre>  &#9474;    &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9474;    &#9492;&#9472; Source folders on build path: webdav/sources</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Default output folder: webdav/runtime/classes</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9492;&#9472; Libraries</pre>
+            <pre>  &#9474;         &#9474;</pre>
+            <pre>  &#9474;         &#9492;&#9472; JARs and class folders on the build path</pre>
+            <pre>  &#9474;              &#9474;</pre>
+            <pre>  &#9474;              &#9500;&#9472; devwex.jar - webdav/runtime</pre>
+            <pre>  &#9474;              &#9500;&#9472; seanox-commons.jar - webdav/libraries</pre>
+            <pre>  &#9474;              &#9492;&#9472; JRE System Library [SDK x.x.x]</pre>
+            <pre>  &#9474;</pre>
+            <pre>Finish</pre>
+          </div>
+          <br>
+          Die manuelle Einrichtung des Projekts zum Debuggen als Servermodul erfolgt so:<br>
+          <br>
+          <div class="box blue">
+            <pre>Run - Debug</pre>
+            <pre>  &#9474;</pre>
+            <pre>  &#9500;&#9472; Create, manage, and run configurations</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Configurations - New</pre>
+            <pre>  &#9474;    &#9500;&#9472; Name: webdav</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Main</pre>
+            <pre>  &#9474;    &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Project: webdav</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Include libraries when searching for a main class: ja</pre>
+            <pre>  &#9474;    &#9474;    &#9492;&#9472; Main class - Search - Service [com.seanox.devwex - webdav/...]</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9492;&#9472; Arguments</pre>
+            <pre>  &#9474;         &#9474;</pre>
+            <pre>  &#9474;         &#9500;&#9472; Program arguments: start*</pre>
+            <pre>  &#9474;         &#9500;&#9472; VM arguments: -Dpath ... sind optional</pre>
+            <pre>  &#9474;         &#9500;&#9472; Use default working directory: nein</pre>
+            <pre>  &#9474;         &#9492;&#9472; Workspace: ${webdav/runtime}</pre>
+            <pre>  &#9474;</pre>
+            <pre>Apply</pre>
+          </div>
+          <br>          
+          Beim debuggen wird Devwex im Projektverzeichnis <code>/webdav/runtime</code>
+          ausgef&uuml;hrt und mit <code>/webdav/runtime/devwex.ini</code> konfiguriert.<br>
+          <br>
+          Zum Kompilieren und Erstellen des Pakets sowie zum Entfernen vom Seanox
+          Devwex SDK mit Apache Ant (<a href="http://ant.apache.org" target="extern"></a>),
+          steht im Projektverzeichnis <code>/webdav/developing/build.xml</code>
+          zur Verf&uuml;gung.
+          <br>
+          Die manuelle Einrichtung des Projekts zum Debuggen als Client erfolgt so:<br>
+          <br>
+          <div class="box blue">
+            <pre>Run - Debug</pre>
+            <pre>  &#9474;</pre>
+            <pre>  &#9500;&#9472; Create, manage, and run configurations</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Configurations - New</pre>
+            <pre>  &#9474;    &#9500;&#9472; Name: webdav</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Main</pre>
+            <pre>  &#9474;    &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Project: webdav</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Include libraries when searching for a main class: ja</pre>
+            <pre>  &#9474;    &#9474;    &#9492;&#9472; Main class - Search - Service [com.seanox.devwex - webdav/...]</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9500;&#9472; Arguments</pre>
+            <pre>  &#9474;    &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Program arguments: start*</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; VM arguments: -Dpath ... sind optional</pre>
+            <pre>  &#9474;    &#9474;    &#9500;&#9472; Use default working directory: nein</pre>
+            <pre>  &#9474;    &#9474;    &#9492;&#9472; Workspace: ${webdav/runtime}</pre>
+            <pre>  &#9474;    &#9474;</pre>
+            <pre>  &#9474;    &#9492;&#9472; Classpath</pre>
+            <pre>  &#9474;         &#9474;</pre>
+            <pre>  &#9474;         &#9500;&#9472; Bootstrap Entries</pre>
+            <pre>  &#9474;         &#9474;    &#9474;</pre>
+            <pre>  &#9474;         &#9474;    &#9492;&#9472; Workspace: ${webdav/runtime}</pre>
+            <pre>  &#9474;         &#9474;</pre>
+            <pre>  &#9474;         &#9492;&#9472; User Entries</pre>
+            <pre>  &#9474;              &#9474;</pre>
+            <pre>  &#9474;              &#9500;&#9472; sourceforge.vietpad.jar - /webdav/libraries (Add JARs)</pre>
+            <pre>  &#9474;              &#9492;&#9472; webdav (Add Projects)</pre>
+            <pre>  &#9474;</pre>
+            <pre>Apply</pre>
+          </div>
+          <br>
+          Beim Debuggen wird Devwex im Projektverzeichnis <code>/webdav/runtime</code>
+          ausgef&uuml;hrt und mit <code>/webdav/runtime/devwex.ini</code> konfiguriert.<br>
+          <br>
+          Der Aufruf erfolgt dann z.B. mit
+          <code>http://127.0.0.1/public</code>.<br>
+          <br>
+          Zum Kompilieren und Erstellen des Pakets sowie zum Entfernen vom Seanox
+          Devwex-SDK mit Apache Ant (<a href="http://ant.apache.org" target="extern"></a>),
+          steht im Projektverzeichnis <code>/webdav/developing/build.xml</code>
+          zur Verf&uuml;gung
+        </div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <span>Seanox Software Solutions</span>
+        <span>since 1996</span>
+      </div>
+      <div>
+        <span>Advanced Server Developing</span>
+        <span>SEANOX</span><span>WEBDAV</span>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+[1.2014.0207]
+  - Erweiterung der Methode PROPPATCH um das Setzen von Dateiattributen unter Windows
+  - Anpassung vom Store, Erweiterung für den Zugriff auf die Dateiattribute Hidden, Systen, Archive, LastAccessTime
+
+[1.2013.0707]
+  - Konfiguration, Umstellung von > auf >>
+
+[1.2013.0701]
+  - Anpassung, Umstellung auf die Seanox Commons 1.2013.0701
+  - Anpassung, Optimierung vom Transaktionsmanagement
+  - Anpassung, Umstellung auf ein abstraktes Store-Design
+  - Erweiterung um einen ZipStore zur Verwendung von Zip-Dateien mit Vollzugriff (lesen, schreiben, ändern, löschen)
+  - Anhebung der Quellen auf Java 7
+  - Erweiterung um die Verwendung der Default-Dateien entsprechend der Server-Konfiguration bei GET-Anfragen von Verzeichnissen 
+
+[1.2013.0401]
+  - Anpassung, Anhebung der Quellen auf Java 6
+  - Anpassung, Harmonisierung mit dem aktuellen SDK (Doku, Build, Dateinamen, ...)
+  - Anpassung, Optimierung für besseres Sharing und die Nutzung mehrer unabhängiger Instanzen
+  
+[1.2010.1007]
+  - Anpassung der Listenansicht, allgemeine Überarbeitung und Optimierung der Sortierung
+  - Anpassung der Listenansicht, die Variable http-location entfällt, alternativ kann script_uri verwendet werden
+  - Anpassung der Listenansicht von Verzeichnissen, allgemeiner Abgleich mit Seanox Devwex
+  - Anpassung der Versionsverwaltung, Umstellung auf Mercurial
+  - Anpassung, allgemeine Umstellung von Parameters auf Section

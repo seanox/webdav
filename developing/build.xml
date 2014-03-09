@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<project name="webdav" default="usage" basedir=".">
+  <target name="usage">
+    <echo>                                                    </echo>
+    <echo> the following targets are available ...            </echo>
+    <echo>                                                    </echo>
+    <echo>   compile  compile and build classes               </echo>
+    <echo>   archive  compile, build classes and make archives</echo>
+    <echo>            for distribution and developing         </echo>
+    <echo>   compact  removed the software developing kit     </echo>
+  </target>
+
+  <property name="project" value="webdav"/>
+  <property name="version" value="1.2014.0207"/>
+		
+  <property name="target" value="7"/>
+  <property name="source" value="7"/>
+  <property name="debug" value="on"/>
+  <property name="optimize" value="on"/>
+  <property name="deprecation" value="on"/>
+
+  <property name="workspace" value=".."/>
+  <property name="developing" value="developing"/>
+  <property name="manuals" value="manuals"/>
+  <property name="documents" value="documents"/>
+  <property name="libraries" value="libraries"/>
+  <property name="sources" value="sources"/>
+  <property name="runtime" value="runtime"/>
+  <property name="build" value="./build"/>
+  <property name="classes" value="${workspace}/${runtime}/classes"/>
+  <property name="distribution" value="${build}/devwex"/>
+  <property name="deploy" value="${build}/${project}"/>
+
+  <path id="classpath">
+    <pathelement location="${workspace}/${libraries}/seanox-commons.jar"/>
+    <pathelement location="${workspace}/${runtime}/devwex.jar"/>
+  </path>
+
+  <target name="generate">
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-year" value="${year}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-month" value="${month}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-day" value="${day}"/>
+    <replace dir="${build}" includes="**/*.html,**/*.java" token="@@@ant-project-version" value="${version}"/>
+  </target>
+
+  <target name="prepared">
+    <echo file="build.swap" append="false">${version}</echo>
+    <replaceregexp file="build.swap" match="(\d)\.(\d{4})\.(\d{2})(\d{2})" replace="content=release=\1\\\\u000Dyear=\2\\\\u000Dmonth=\3\\\\u000Dday=\4"/>
+    <property file="build.swap"/>
+    <echo file="build.swap" append="false">${content}</echo>
+    <property file="build.swap"/>
+    <property name="timing" value="${year}${month}${day}"/>
+    <delete file="build.swap"/>
+  </target>
+
+  <target name="initialize" depends="prepared">
+    <delete file="${workspace}/${libraries}/seanox-${project}.jar"/>
+    <delete file="seanox-${project}-${version}-bin.zip"/>
+    <delete file="seanox-${project}-${version}-src.zip"/>
+    <delete dir="${build}"/>
+    <delete dir="${classes}"/>
+    <mkdir dir="${workspace}/${libraries}"/>
+    <mkdir dir="${classes}"/>
+  </target>
+
+  <target name="compile" depends="initialize">
+    <mkdir dir="${build}"/>
+    <copy todir="${build}/sources">
+      <fileset dir="${workspace}/${sources}"/>
+    </copy>
+    <antcall target="generate"/>
+  	<javac srcdir="${build}/${sources}" destdir="${classes}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" source="${source}" target="${target}">
+      <classpath>
+        <path refid="classpath"/>
+      </classpath>
+    </javac>
+    <delete dir="${build}"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${classes}"/>
+    </touch>
+    <zip destfile="${workspace}/${libraries}/seanox-${project}.jar" compress="true" filesonly="true" basedir="${classes}"/>
+  </target>
+
+  <target name="module" depends="initialize,compile">
+    <mkdir dir="${distribution}"/>
+    <copy file="${workspace}/${libraries}/seanox-${project}.jar" todir="${distribution}/libraries"/>
+    <copy todir="${distribution}/manuals">
+      <fileset dir="${workspace}/${manuals}">
+        <include name="seanox-${project}*"/>
+      </fileset>
+    </copy>
+    <copy file="${workspace}/.license" tofile="${distribution}/license.txt"/>
+    <copy file="${workspace}/${runtime}/devwex.ini" tofile="${distribution}/program/devwex.ini-${project}"/>
+    <antcall target="generate"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${distribution}"/>
+    </touch>
+    <zip destfile="seanox-${project}-${version}-bin.zip" compress="true" filesonly="true" basedir="${distribution}/.."/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="developing">
+    <mkdir dir="${deploy}"/>
+    <copy todir="${deploy}/manuals">
+      <fileset dir="${workspace}/${manuals}">
+        <include name="seanox-${project}*"/>
+      </fileset>
+    </copy>
+    <copy file="${workspace}/${runtime}/devwex.ini" todir="${deploy}/runtime"/>
+    <copy todir="${deploy}/sources">
+      <fileset dir="${workspace}/${sources}"/>
+    </copy>
+    <copy file="./build.xml" todir="${deploy}/developing"/>
+    <copy file="${workspace}/.classpath" todir="${deploy}"/>
+    <copy file="${workspace}/.license" todir="${deploy}"/>
+    <copy file="${workspace}/.project" todir="${deploy}"/>
+    <touch datetime="${timing}" pattern="yyyyMMdd">
+      <fileset dir="${deploy}"/>
+    </touch>
+    <zip destfile="seanox-${project}-${version}-src.zip" compress="true" filesonly="true" basedir="${deploy}/.."/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="archive" depends="module,developing"/>
+
+  <target name="compact" depends="initialize">
+    <delete includeEmptyDirs="true">
+      <fileset dir="${workspace}">
+        <patternset>
+          <exclude name="${developing}/**"/>
+          <exclude name="${manuals}/seanox-${project}*"/>
+          <exclude name="${runtime}/devwex.ini"/>
+          <exclude name="${documents}/index.html"/>
+          <exclude name="${sources}/**"/>
+          <exclude name=".classpath"/>
+          <exclude name=".license"/>
+          <exclude name=".project"/>
+          <exclude name=".hg*"/>
+          <exclude name=".hg/**"/>
+        </patternset>
+      </fileset>
+    </delete>
+  </target>
+</project>
